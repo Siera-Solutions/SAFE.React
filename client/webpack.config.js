@@ -2,8 +2,8 @@
 // In most cases, you'll only need to edit the CONFIG object (after dependencies)
 // See below if you need better fine-tuning of Webpack options
 
-// Dependencies. Also required: core-js, @babel/core,
-// @babel/preset-env, babel-loader, sass, sass-loader, css-loader, style-loader, file-loader
+// Dependencies
+// sass, sass-loader, css-loader, style-loader
 var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,7 +17,7 @@ patchGracefulFileSystem();
 // If we're running the webpack-dev-server, assume we're in development mode
 var isProduction = !process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 
-const isDevelopment = !isProduction && process.env.NODE_ENV !== 'production';
+//const isDevelopment = !isProduction && process.env.NODE_ENV !== 'production';
 
 var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
@@ -36,12 +36,6 @@ var CONFIG = {
             target: "http://localhost:5000",
             changeOrigin: true
         }
-    },
-    // Use babel-preset-env to generate JS compatible with most-used browsers.
-    // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
-    babel: {
-        plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
-        presets: ["@babel/preset-env", "@babel/preset-react"]
     }
 }
 
@@ -76,7 +70,7 @@ module.exports = {
     // to prevent browser caching if code changes
     output: {
         path: resolve(CONFIG.outputDir),
-        filename: isProduction ? '[name].[hash].js' : '[name].js'
+        filename: isProduction ? '[name].[contenthash].js' : '[name].js'
     },
     mode: isProduction ? "production" : "development",
     devtool: isProduction ? "source-map" : "eval-source-map",
@@ -84,13 +78,7 @@ module.exports = {
         // Split the code coming from npm packages into a different file.
         // 3rd party dependencies change less often, let the browser cache them.
         splitChunks: {
-            cacheGroups: {
-                commons: {
-                    test: /node_modules/,
-                    name: "vendors",
-                    chunks: "all"
-                }
-            }
+            chunks: "all"    
         },
     },
     // Besides the HtmlPlugin, we use the following plugins:
@@ -112,16 +100,6 @@ module.exports = {
         : commonPlugins.concat([
             new ReactRefreshWebpackPlugin()
         ]),
-    resolve: {
-        // See https://github.com/fable-compiler/Fable/issues/1490
-        symlinks: false,
-        modules: [resolve("./node_modules")],
-        alias: {
-            // Some old libraries still use an old specific version of core-js
-            // Redirect the imports of these libraries to the newer core-js
-            'core-js/es6': 'core-js/es'
-        }
-    },
     // Configuration for webpack-dev-server
     devServer: {
         static: {
@@ -132,18 +110,14 @@ module.exports = {
         proxy: CONFIG.devServerProxy,
         hot: true
     },
-    // - babel-loader: transforms JS to old syntax (compatible with old browsers)
     // - sass-loaders: transforms SASS/SCSS into JS
-    // - file-loader: Moves files referenced in the code (fonts, images) into output folder
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: CONFIG.babel
-                },
+                enforce: "pre",
+                use: ["source-map-loader"]
             },
             {
                 test: /\.(sass|scss|css)$/,
@@ -162,9 +136,10 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
-                use: ["file-loader"]
+                type: 'asset/resource'
             }
-        ]
+        ],
+        
     }
 };
 

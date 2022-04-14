@@ -71,11 +71,7 @@ let ServerCounter() =
     | Deferred.Failed error -> Html.h1 error.Message
     | Deferred.Resolved counter -> Html.h1 counter.Value
 
-// Simple interop with existing React components
-// input parameters are compiled as props for the imported component
-// Use the component just like a function: About "Feliz"
-[<ReactComponent(import="About", from="./About.jsx")>]
-let About (title: string) = React.imported()
+
 
 open Feliz.Router
 
@@ -92,7 +88,6 @@ let Router() =
             | [ "styled" ] -> StyledCounter()
             | [ "server" ] -> ServerCounter()
             | [ "bulma" ] -> BulmaCounter()
-            | [ "about" ] -> About "Feliz"
             | _ -> Html.h1 "Not found"
         ]
     ]
