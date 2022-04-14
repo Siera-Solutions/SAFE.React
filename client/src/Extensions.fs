@@ -65,3 +65,13 @@ module Stylesheet =
 
     /// Loads a CSS module and makes the classes within available
     let inline load (path: string) = importDefault<IStylesheet> path
+
+
+module React =
+
+    type IRoot =
+        abstract render: obj -> unit
+
+    [<Import("createRoot", from="react-dom/client")>]
+    let createRoot(container: obj): IRoot = jsNative
+    
