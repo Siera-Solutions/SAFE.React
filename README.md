@@ -5,7 +5,7 @@ Full Stack F# powered by ASP.NET Core on the backend and modern React on the fro
 A lightweight alternative template to the full-fledged official [SAFE Template](https://github.com/SAFE-Stack/SAFE-template). Lowers the entry barrier by choosing the simplest possible opinionated defaults:
  - Nuget for package management
  - [FAKE](https://fake.build/) build script as a console project (see ./build)
- - [Saturn](https://github.com/SaturnFramework/Saturn) as server web framework
+ - [Giraffe](https://github.com/giraffe-fsharp/Giraffe) as server web framework
  - [Fable.Remoting](https://github.com/Zaid-Ajaj/Fable.Remoting) for client-server communications
  - [Feliz](https://github.com/Zaid-Ajaj/Feliz) to build pure React on the front-end
  - [Expecto](https://github.com/haf/expecto) for server unit-tests project
@@ -20,8 +20,8 @@ A lightweight alternative template to the full-fledged official [SAFE Template](
 To start using this template, simply clone this repository or use it as template via Github UI and you are good to go.
 
 You need to have installed:
-  - [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download)
-  - [Node.js 12.0+](https://nodejs.org/en)
+  - [.NET 6.0+ SDK](https://dotnet.microsoft.com/download)
+  - [Node.js 16.0+](https://nodejs.org/en)
 
 You can use the editor of your choice to work with the repository. [VS Code](https://code.visualstudio.com) is recommended with the [Ionide](http://ionide.io) extension for F# development but the template will also work just fine with [Visual Studio](https://visualstudio.microsoft.com/vs/), [Rider](https://www.jetbrains.com/rider) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac) if you prefer to work with any of those.
 
@@ -34,7 +34,7 @@ To work with and develop the application, you need to both the server and the cl
  -------------------------------------- --------------------------------------
   > cd server                            > cd client
   > dotnet restore                       > npm install
-  > dotnet run                           > npm start
+  > dotnet watch run                     > npm run start
 ```
 As shown here below
 
@@ -160,7 +160,3 @@ Target.create "InstallAnalyzers" <| fun _ ->
     ]
 ```
 Then run the build target `InstallAnalyzers` again where it will delete the contents of `analyzers` directory and re-install all configured analyzers from scratch. Restart VS Code to allow Ionide to reload the installed analyzers. If you already have analyzers installed and adding new ones, you might need to do that from the terminal outside of VS Code because Ionide will lock the files in the `analyzers` path preventing the target from deleting the old analyzers.
-
-### IIS Support
-
-The bundled application you get by running the `Pack` build target can be used directly as an application inside of IIS. Publishing on IIS requires that you make a separate Application Pool per .NET Core application with selected .NET CLR Version = `No Managed Code`. Then creating a new IIS Application which into the newly created Application Pool and setting the Physical Path of that Application to be the `dist` directory.
