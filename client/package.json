@@ -5,7 +5,7 @@
         "start": "dotnet fable watch src --run webpack serve --mode development",
         "prebuild": "dotnet tool restore",
         "build": "dotnet fable src --run webpack --mode production",
-        "test:live": "dotnet fable watch tests --run webpack serve --config ./webpack.tests.js",
+        "test:live": "dotnet fable watch tests --run webpack serve --config ./webpack.tests.js --mode development",
         "build:test": "dotnet fable tests --run webpack --config webpack.tests.js",
         "pretest": "dotnet tool restore && fable-splitter tests -o dist/tests --commonjs",
         "test": "dotnet fable tests --outDir dist/tests && mocha dist/tests"
