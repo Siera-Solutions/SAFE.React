@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="Tests.fs" />
@@ -9,9 +9,6 @@
         <ProjectReference Include="..\src\Client.fsproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Fable.Mocha" Version="2.9.1" />
-    </ItemGroup>
-    <ItemGroup>
-      <PackageReference Update="FSharp.Core" Version="4.7.2" />
+        <PackageReference Include="Fable.Mocha" Version="2.15.0" />
     </ItemGroup>
 </Project>

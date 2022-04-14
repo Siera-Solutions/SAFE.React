@@ -1,6 +1,6 @@
 ﻿module Program
 
-open Saturn
+
 open Giraffe
 open Shared
 open Server
@@ -8,6 +8,9 @@ open Fable.Remoting.Server
 open Fable.Remoting.Giraffe
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Builder
+open Serilog
+open Serilog.Events
 
 let webApi =
     Remoting.createApi()
@@ -17,18 +20,38 @@ let webApi =
 
 let webApp = choose [ webApi; GET >=> text "Welcome to full stack F#" ]
 
-let serviceConfig (services: IServiceCollection) =
-    services
-      .AddSingleton<ServerApi>()
-      .AddLogging()
 
-let application = application {
-    use_router webApp
-    use_static "wwwroot"
-    use_gzip
-    use_iis
-    service_config serviceConfig
-    webhost_config Env.configureHost
-}
+let builder = WebApplication.CreateBuilder()
+builder.Host.UseSerilog() |> ignore
+builder.Services
+    .AddSingleton<ServerApi>() 
+    .AddResponseCompression()
+    |> ignore
 
-run application
+
+let app = builder.Build()
+
+
+app.UseGiraffe webApp
+app
+    .UseStaticFiles("/wwwroot")
+    .UseResponseCompression() 
+    |> ignore
+
+do 
+
+Log.Logger <- LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+try
+    try 
+        Log.Information("Starting web host")
+        app.Run("http://0.0.0.0:5000")
+
+    with 
+        | ex -> 
+            Log.Fatal(ex, "Error starting web host")
+finally
+    Log.CloseAndFlush()

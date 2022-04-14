@@ -19,3 +19,4 @@ NPGSQL_FSHARP
 *.fs.js
 talk.md
 .idea
+.fake

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,15 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Expecto" Version="9.0.2" />
+    <PackageReference Include="Expecto" Version="9.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\server\Server.fsproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.2" />
-  </ItemGroup>
-
 </Project>

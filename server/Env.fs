@@ -98,8 +98,3 @@ let configureVariables (builder: IWebHostBuilder) =
     builder.ConfigureAppConfiguration(fun context configBuilder ->
         let variables = combinedVariables()
         configBuilder.AddInMemoryCollection(variables) |> ignore)
-
-let configureHost (builder: IWebHostBuilder) =
-    builder.UseSerilog(fun context configureLogger ->
-        configureLogger.MinimumLevel.Information().Enrich.FromLogContext().WriteTo.Console() |> ignore)
-    |> configureVariables

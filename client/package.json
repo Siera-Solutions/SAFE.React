@@ -7,8 +7,8 @@
         "build": "dotnet fable ./src && webpack",
         "test:live": "dotnet fable watch tests --run webpack-dev-server --config ./webpack.tests.js",
         "build:test": "dotnet fable tests && webpack --config webpack.tests.js",
-        "pretest": "dotnet tool restore",
-        "test": "dotnet fable tests --outDir dist/tests && mocha dist/tests -r esm"
+        "pretest": "dotnet tool restore && fable-splitter tests -o dist/tests --commonjs",
+        "test": "dotnet fable tests --outDir dist/tests && mocha dist/tests"
     },
     "dependencies": {
         "bulma": "^0.9.1",
@@ -27,12 +27,12 @@
         "core-js": "^3.3.6",
         "css-loader": "^5.0.1",
         "dotenv-webpack": "^6.0.0",
-        "esm": "^3.2.25",
+        "fable-splitter": "^2.2.1",
         "file-loader": "^6.2.0",
         "graceful-fs": "^4.2.4",
         "html-webpack-plugin": "^4.5.0",
         "mini-css-extract-plugin": "^1.3.1",
-        "mocha": "^8.1.3",
+        "mocha": "^9.2.2",
         "react-refresh": "^0.9.0",
         "sass": "^1.29.0",
         "sass-loader": "^10.1.0",
