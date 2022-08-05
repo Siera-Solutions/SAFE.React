@@ -1,1 +1,1 @@
-dotnet run --project ./build/Build.fsproj -- RunDefaultOr $1
+dotnet run --project ./app/build/Build.fsproj -- RunDefaultOr $1

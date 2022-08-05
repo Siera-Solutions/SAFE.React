@@ -1,0 +1,2 @@
+0,30 * * * * ash /bin/backup.sh
+0 0 * * * ash /bin/cleanup.sh

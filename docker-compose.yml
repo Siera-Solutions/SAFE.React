@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  app:
+    # container_name: app
+    build: 
+      dockerfile: app.Dockerfile
+      target: debug
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      DOTNET_DbgEnableMiniDump: 1
+      DbApplicationData__Host: db
+      DbApplicationData__Port: 5432
+      DbApplicationData__User: postgres
+      DbApplicationData__Password: postgres
+      DbApplicationData__Database: application_data
+    volumes:
+      - ./lib:/workspace/lib/:rw,cached
+      - ./app:/workspace/app/:rw,cached
+      - /workspace/app/client/node_modules 
+      - /workspace/app/server/bin
+      - /workspace/app/server/obj
+    depends_on:
+      - db
+
+  db:
+    # container_name: db
+    build: 
+      context: .\postgres\postgres
+      dockerfile: Dockerfile
+    user: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./postgres/postgres/scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - "6000:5432"
+
+volumes:
+  data:
+  pgadmin:

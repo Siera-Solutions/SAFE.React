@@ -69,7 +69,7 @@ let ServerCounter() =
     | Deferred.HasNotStartedYet -> Html.none
     | Deferred.InProgress -> Html.h1 "Loading"
     | Deferred.Failed error -> Html.h1 error.Message
-    | Deferred.Resolved counter -> Html.h1 counter.Value
+    | Deferred.Resolved counter -> Html.h1 (counter.Value + 2)
 
 
 

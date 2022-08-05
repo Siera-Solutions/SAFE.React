@@ -12,7 +12,7 @@ open Fake.Core.TargetOperators
 Setup.context()
 
 let path xs = Path.Combine(Array.ofList xs)
-let solutionRoot = Files.findParent __SOURCE_DIRECTORY__ "App.sln";
+let solutionRoot = Files.findParent __SOURCE_DIRECTORY__ "app.sln";
 let server = path [ solutionRoot; "server" ]
 let client =  path [ solutionRoot; "client" ]
 let serverTests = path [ solutionRoot; "serverTests" ]
@@ -103,6 +103,15 @@ Target.create "InstallAnalyzers" <| fun _ ->
         // { Name = "NpgsqlFSharpAnalyzer"; Version = "3.8.0" }
     ]
 
+Target.create "Run" <| fun _ ->
+    [
+        async { return Shell.Exec(Tools.dotnet, "watch run", server)  }
+        async { return Shell.Exec(Tools.npm, "run start", client) }
+    ]
+    |> Async.Parallel
+    |> Async.RunSynchronously
+    |> ignore
+
 let dependencies = [
     "RestoreServer" ==> "Server" ==> "ServerTests"
     "RestoreClient" ==> "Client"
@@ -110,6 +119,7 @@ let dependencies = [
     "ServerTests" ==> "Pack"
     "ClientTests" ==> "Pack"
     "RestoreClient" ==> "PackNoTests"
+    "Run"
 ]
 
 [<EntryPoint>]
