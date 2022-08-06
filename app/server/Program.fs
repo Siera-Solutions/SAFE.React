@@ -11,6 +11,7 @@ open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Builder
 open Serilog
 open Serilog.Events
+open Microsoft.AspNetCore.Hosting
 
 let webApi =
     Remoting.createApi()
@@ -20,12 +21,21 @@ let webApi =
 
 let webApp = choose [ webApi; GET >=> text "Welcome to full stack F#" ]
 
+let configureServices (ctx : WebHostBuilderContext) (services : IServiceCollection) =
+    let config = ctx.Configuration
+
+    services
+        //.Configure<Configuration.DbApplicationData>(config.GetSection("DbApplicationData"))
+        .Configure<Configuration.AppSettings>(config)
+        .AddSingleton<ServerApi>() 
+        .AddResponseCompression()
+    |> ignore
+        
 
 let builder = WebApplication.CreateBuilder()
 builder.Host.UseSerilog() |> ignore
-builder.Services
-    .AddSingleton<ServerApi>() 
-    .AddResponseCompression()
+builder.WebHost
+    .ConfigureServices(configureServices)
     |> ignore
 
 
