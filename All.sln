@@ -31,6 +31,8 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Shared", "app\shared\Shared
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{AD3C340A-8164-47A6-B58B-6ED908D10D18}"
 EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Database", "app\database\Database.fsproj", "{9B5AFA72-EF29-4E60-964A-A933542D7D57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{62D665BE-B0E8-4FB9-995A-232B55D6C2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62D665BE-B0E8-4FB9-995A-232B55D6C2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62D665BE-B0E8-4FB9-995A-232B55D6C2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5AFA72-EF29-4E60-964A-A933542D7D57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5AFA72-EF29-4E60-964A-A933542D7D57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5AFA72-EF29-4E60-964A-A933542D7D57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5AFA72-EF29-4E60-964A-A933542D7D57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{436013EE-99D7-4AC4-96E5-C0802A912433} = {AD3C340A-8164-47A6-B58B-6ED908D10D18}
 		{91E7D892-267A-4CAC-933A-9AC29D8F2F3D} = {AD3C340A-8164-47A6-B58B-6ED908D10D18}
 		{62D665BE-B0E8-4FB9-995A-232B55D6C2C3} = {AD3C340A-8164-47A6-B58B-6ED908D10D18}
+		{9B5AFA72-EF29-4E60-964A-A933542D7D57} = {AD3C340A-8164-47A6-B58B-6ED908D10D18}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6E1A8B02-B109-4BAF-BCD3-8D5B55EB553A}
