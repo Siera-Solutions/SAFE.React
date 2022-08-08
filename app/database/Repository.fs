@@ -1,7 +1,10 @@
 ﻿namespace Database
 
+open EntityFrameworkCore.FSharp.DbContextHelpers
+
 open DbContext
+open Model
 
 type Repository(context : AppDbContext) =
-    member _.getBlog(id) =
-        printfn "Hello %s" id // TODO
+    member _.getBlog(id : int) =
+        tryFindEntityAsync<Blog> context id
