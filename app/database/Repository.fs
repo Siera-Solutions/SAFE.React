@@ -1,5 +1,7 @@
 ﻿namespace Database
 
-module Repository =
-    let getBlog id =
+open DbContext
+
+type Repository(context : AppDbContext) =
+    member _.getBlog(id) =
         printfn "Hello %s" id // TODO

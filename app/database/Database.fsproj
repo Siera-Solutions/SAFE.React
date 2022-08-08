@@ -9,6 +9,7 @@
     <Compile Include="Model.fs" />
     <Compile Include="AppDbContext.fs" />
     <Compile Include="Repository.fs" />
+    <Compile Include="Startup.fs" />
     <Compile Include="Migrations\20220807153448_Initial.fs" />
     <Compile Include="Migrations\AppDbContextModelSnapshot.fs" />
   </ItemGroup>

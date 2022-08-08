@@ -35,7 +35,13 @@ let configureServices (ctx : WebHostBuilderContext) (services : IServiceCollecti
     let getDbConfig (sp: IServiceProvider) =
         let appSettings = sp.GetRequiredService<IOptions<Configuration.AppSettings>>()
         let dbConfig = appSettings.Value.DbApplicationData
-        (dbConfig.Host, dbConfig.Port, dbConfig.Database, dbConfig.Username, dbConfig.Password)
+        {
+            DbContext.DbSettings.Host = dbConfig.Host
+            DbContext.DbSettings.Port = dbConfig.Port
+            DbContext.DbSettings.Database = dbConfig.Database
+            DbContext.DbSettings.Username = dbConfig.Username
+            DbContext.DbSettings.Password = dbConfig.Password
+        }
 
     services
         //.Configure<Configuration.DbApplicationData>(config.GetSection("DbApplicationData"))
@@ -43,6 +49,7 @@ let configureServices (ctx : WebHostBuilderContext) (services : IServiceCollecti
         .AddSingleton<ServerApi>()
         .AddDbContext<DbContext.AppDbContext>(fun sp options -> getDbConfig sp |> DbContext.configureDbContext options |> ignore)
         .AddResponseCompression()
+    |> Database.Startup.AddDatabaseServices getDbConfig
     |> ignore
         
 

@@ -7,6 +7,14 @@ open Model
 open Microsoft.EntityFrameworkCore.Design
 open Microsoft.Extensions.DependencyInjection
 
+type DbSettings = {
+    Host : string
+    Port : int
+    Database : string
+    Username : string
+    Password : string
+}
+
 //type AppDbContext(host: string, port: int, username: string, password: string, database: string) =
 type AppDbContext(options: DbContextOptions<AppDbContext>) =
     inherit DbContext(options)
@@ -35,6 +43,6 @@ type AppDbContextFactory() =
             //new AppDbContext("", 5000, "", "", "")
             new AppDbContext(options.Options)
 
-let configureDbContext (options : DbContextOptionsBuilder) (host: string, port: int, database: string, username: string, password: string) =
+let configureDbContext (options : DbContextOptionsBuilder) (settings : DbSettings) =
     let assemblyName = typeof<AppDbContext>.Assembly.FullName
-    options.UseNpgsql($"Server={host};Port={port};Database={database};User Id={username};Password={password}", fun x -> x.MigrationsAssembly assemblyName |> ignore).UseFSharpTypes()
+    options.UseNpgsql($"Server={settings.Host};Port={settings.Port};Database={settings.Database};User Id={settings.Username};Password={settings.Password}", fun x -> x.MigrationsAssembly assemblyName |> ignore).UseFSharpTypes()
