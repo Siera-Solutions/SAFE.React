@@ -11,7 +11,7 @@ module Startup =
     let AddDatabaseServices (provideDbSettings: IServiceProvider -> DbSettings) (services : IServiceCollection) =
         services
             .AddDbContext<AppDbContext>(fun sp options -> provideDbSettings sp |> DbContext.configureDbContext options |> ignore)
-            .AddSingleton<Repository>()
+            .TryAddScoped<Repository>()
             |> ignore
 
         services
