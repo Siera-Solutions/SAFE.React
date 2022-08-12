@@ -110,6 +110,9 @@ module.exports = {
         proxy: CONFIG.devServerProxy,
         hot: true
     },
+    watchOptions: {
+        poll: 1000, // Check for changes every second
+    },
     // - sass-loaders: transforms SASS/SCSS into JS
     module: {
         rules: [
